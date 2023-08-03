@@ -1,9 +1,10 @@
 import { Hono } from 'hono'
 import { logger } from 'hono/logger'
 import connectDB from './config/db'
-import { users } from './routes'
+import { Users } from './routes'
 import { prettyJSON } from 'hono/pretty-json'
 import { cors } from 'hono/cors'
+import { jwt } from 'hono/jwt'
 
 // Initialize the Hono app
 const app = new Hono().basePath('/api/v1')
@@ -25,8 +26,13 @@ app.use(
 
 app.get('/', (c) => c.text('Hono!'))
 
+// JWT
+// if (Bun.env.JWT_SECRET !== undefined) {
+//   app.use('*', jwt({ secret: Bun.env.JWT_SECRET, alg: 'HS256' }))
+// }
+
 // User Routes
-app.route('/users', users)
+app.route('/users', Users)
 
 app.get('/json', (c) => {
   if (c.runtime === 'bun') {
