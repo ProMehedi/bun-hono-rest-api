@@ -1,18 +1,32 @@
 import { Hono } from 'hono'
 import { logger } from 'hono/logger'
 import connectDB from './config/db'
+import { users } from './routes'
+import { prettyJSON } from 'hono/pretty-json'
+import { cors } from 'hono/cors'
 
 // Initialize the Hono app
 const app = new Hono().basePath('/api/v1')
 
-// Config MongoDB\
+// Config MongoDB
 connectDB()
-// app.use(connectDB)
 
-// Initialize the logger middleware
-app.use('*', logger())
+// Initialize middlewares
+app.use('*', logger(), prettyJSON())
+
+// Cors
+app.use(
+  '*',
+  cors({
+    origin: '*',
+    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  })
+)
 
 app.get('/', (c) => c.text('Hono!'))
+
+// User Routes
+app.route('/users', users)
 
 app.get('/json', (c) => {
   if (c.runtime === 'bun') {
