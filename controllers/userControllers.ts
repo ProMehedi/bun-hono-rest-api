@@ -11,3 +11,41 @@ export const getUsers = async (c: Context) => {
 
   return c.json({ users })
 }
+
+/**
+ * @api {post} /users Create User
+ * @apiGroup Users
+ * @access Public
+ */
+export const createUser = async (c: Context) => {
+  const { name, email, password } = await c.req.json()
+
+  // Check for existing user
+  const userExists = await User.findOne({ email })
+  if (userExists) {
+    c.status(400)
+    throw new Error('User already exists')
+  }
+
+  const user = await User.create({
+    name,
+    email,
+    password,
+  })
+
+  if (!user) {
+    c.status(400)
+    throw new Error('Invalid user data')
+  }
+
+  return c.json({
+    success: true,
+    data: {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    },
+    message: 'User created successfully',
+  })
+}

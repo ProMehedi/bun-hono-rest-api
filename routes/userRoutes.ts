@@ -7,6 +7,9 @@ const users = new Hono()
 // Get All Users
 users.get('/', protect, (c) => user.getUsers(c))
 
+// Create User
+users.post('/', (c) => user.createUser(c))
+
 // Get Single User
 users.get('/:id', (c) => {
   const id = c.req.param('id')
