@@ -9,5 +9,5 @@ import { User } from '../models'
 export const getUsers = async (c: Context) => {
   const users = await User.find()
 
-  return c.json(users)
+  return c.json({ users })
 }

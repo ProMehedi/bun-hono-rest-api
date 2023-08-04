@@ -1,10 +1,11 @@
 import { Hono } from 'hono'
 import { logger } from 'hono/logger'
-import connectDB from './config/db'
-import { Users } from './routes'
 import { prettyJSON } from 'hono/pretty-json'
 import { cors } from 'hono/cors'
 import { jwt } from 'hono/jwt'
+//
+import connectDB from './config/db'
+import { Users } from './routes'
 
 // Initialize the Hono app
 const app = new Hono().basePath('/api/v1')
@@ -27,9 +28,9 @@ app.use(
 app.get('/', (c) => c.text('Hono!'))
 
 // JWT
-// if (Bun.env.JWT_SECRET !== undefined) {
-//   app.use('*', jwt({ secret: Bun.env.JWT_SECRET, alg: 'HS256' }))
-// }
+if (Bun.env.JWT_SECRET !== undefined) {
+  // app.use('*', jwt({ secret: Bun.env.JWT_SECRET, alg: 'HS256' }))
+}
 
 // User Routes
 app.route('/users', Users)
@@ -48,12 +49,14 @@ app.notFound((c) => {
   return c.text('Custom 404 Message', 404)
 })
 
-app.onError((err, c) => {
-  console.error(`${err}`)
-  return c.text('Custom Error Message', 500)
-})
+// app.onError((err, c) => {
+//   console.error(`${err}`)
+//   return c.text('Custom Error Message', 500)
+// })
+
+const port = Bun.env.PORT || 8000
 
 export default {
-  port: 8000,
+  port,
   fetch: app.fetch,
 }
