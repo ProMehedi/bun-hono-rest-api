@@ -16,7 +16,7 @@ export const protect = async (c: Context, next: Next) => {
         return c.json({ message: 'Not authorized to access this route' })
       }
 
-      const { id } = await Jwt.verify(token, 'abc123')
+      const { id } = await Jwt.verify(token, Bun.env.JWT_SECRET || '')
       const user = await User.findById(id).select('-password')
       c.set('user', user)
 

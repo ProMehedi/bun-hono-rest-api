@@ -21,6 +21,6 @@ export const notFound = (c: Context) => {
   return c.json({
     success: false,
     statusCode,
-    message: `Not Found - ${c.req.method} ${c.req.url}`,
+    message: `Not Found - [${c.req.method}] ${c.req.url}`,
   })
 }

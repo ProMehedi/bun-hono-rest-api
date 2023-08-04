@@ -34,7 +34,6 @@ app.notFound((c) => {
 // Error Handler
 app.onError((err, c) => {
   const error = errorHandler(c)
-  console.log(error)
   return error
 })
 
