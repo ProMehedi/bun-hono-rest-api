@@ -22,11 +22,11 @@ export const protect = async (c: Context, next: Next) => {
 
       await next()
     } catch (err) {
-      return c.json({ message: 'Invalid token! You are not authorized!' })
+      throw new Error('Invalid token! You are not authorized!')
     }
   }
 
   if (!token) {
-    return c.json({ message: 'Not authorized! No token found!' })
+    throw new Error('Not authorized! No token found!')
   }
 }

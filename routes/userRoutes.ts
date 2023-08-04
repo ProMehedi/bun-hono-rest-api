@@ -1,11 +1,11 @@
 import { Hono } from 'hono'
 import { user } from '../controllers'
-import { auth } from '../middlewares'
+import { protect } from '../middlewares'
 
 const users = new Hono()
 
 // Get All Users
-users.get('/', auth.protect, (c) => user.getUsers(c))
+users.get('/', protect, (c) => user.getUsers(c))
 
 // Get Single User
 users.get('/:id', (c) => {
