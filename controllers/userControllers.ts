@@ -1,5 +1,6 @@
 import { Context } from 'hono'
 import { User } from '../models'
+import { genToken } from '../utils'
 
 /**
  * @api {get} /users Get All Users
@@ -38,6 +39,8 @@ export const createUser = async (c: Context) => {
     throw new Error('Invalid user data')
   }
 
+  const token = await genToken(user._id.toString())
+
   return c.json({
     success: true,
     data: {
@@ -46,6 +49,7 @@ export const createUser = async (c: Context) => {
       email: user.email,
       isAdmin: user.isAdmin,
     },
+    token,
     message: 'User created successfully',
   })
 }
