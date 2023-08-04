@@ -1,2 +1,2 @@
 export { protect } from './authMiddlewares'
-export { errorHandler } from './errorMiddlewares'
+export { errorHandler, notFound } from './errorMiddlewares'
