@@ -1,6 +1,17 @@
-import * as mongoose from 'mongoose'
+import { Document, Schema, model } from 'mongoose'
 
-const userSchema = new mongoose.Schema(
+interface IUser {
+  name: string
+  email: string
+  password: string
+  isAdmin: boolean
+}
+
+interface IUserDoc extends IUser, Document {
+  mathPassword: (enteredPassword: string) => Promise<boolean>
+}
+
+const userSchema = new Schema<IUserDoc>(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
@@ -34,5 +45,5 @@ userSchema.pre('save', async function (next) {
   })
 })
 
-const User = mongoose.model('User', userSchema)
+const User = model('User', userSchema)
 export default User
