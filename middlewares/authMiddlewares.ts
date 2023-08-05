@@ -2,7 +2,6 @@ import { Context, Next } from 'hono'
 import { Jwt } from 'hono/utils/jwt'
 //
 import { User } from '../models'
-import { HTTPException } from 'hono/http-exception'
 
 // Protect Route for Authenticated Users
 export const protect = async (c: Context, next: Next) => {

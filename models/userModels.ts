@@ -8,7 +8,7 @@ interface IUser {
 }
 
 interface IUserDoc extends IUser, Document {
-  mathPassword: (enteredPassword: string) => Promise<boolean>
+  mathPassword: (pass: string) => Promise<boolean>
 }
 
 const userSchema = new Schema<IUserDoc>(
@@ -25,11 +25,7 @@ const userSchema = new Schema<IUserDoc>(
 
 // Match user entered password to hashed password in database
 userSchema.methods.mathPassword = async function (enteredPassword: string) {
-  const hash = Bun.password.hashSync(enteredPassword, {
-    algorithm: 'bcrypt',
-    cost: 4,
-  })
-  return Bun.password.verifySync(this.password, hash)
+  return Bun.password.verifySync(enteredPassword, this.password)
 }
 
 // Hash password with Bun
