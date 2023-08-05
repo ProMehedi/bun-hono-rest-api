@@ -25,11 +25,11 @@ app.use(
   })
 )
 
-// Not Found Handler
-app.notFound((c) => {
-  const error = notFound(c)
-  return error
-})
+// Home Route
+app.get('/', (c) => c.text('Welcome to the API!'))
+
+// User Routes
+app.route('/users', Users)
 
 // Error Handler
 app.onError((err, c) => {
@@ -37,11 +37,11 @@ app.onError((err, c) => {
   return error
 })
 
-// Home Route
-app.get('/', (c) => c.text('Welcome to the API!'))
-
-// User Routes
-app.route('/users', Users)
+// Not Found Handler
+app.notFound((c) => {
+  const error = notFound(c)
+  return error
+})
 
 const port = Bun.env.PORT || 8000
 

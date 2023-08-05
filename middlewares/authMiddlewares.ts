@@ -2,7 +2,9 @@ import { Context, Next } from 'hono'
 import { Jwt } from 'hono/utils/jwt'
 //
 import { User } from '../models'
+import { HTTPException } from 'hono/http-exception'
 
+// Protect Route for Authenticated Users
 export const protect = async (c: Context, next: Next) => {
   let token
 
@@ -28,5 +30,17 @@ export const protect = async (c: Context, next: Next) => {
 
   if (!token) {
     throw new Error('Not authorized! No token found!')
+  }
+}
+
+// Check if user is admin
+export const isAdmin = async (c: Context, next: Next) => {
+  const user = c.get('user')
+
+  if (user && user.isAdmin) {
+    await next()
+  } else {
+    c.status(401)
+    throw new Error('Not authorized as an admin!')
   }
 }
