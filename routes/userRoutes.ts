@@ -10,6 +10,9 @@ users.get('/', protect, (c) => user.getUsers(c))
 // Create User
 users.post('/', (c) => user.createUser(c))
 
+// Login User
+users.post('/login', (c) => user.loginUser(c))
+
 // Get Single User
 users.get('/:id', (c) => {
   const id = c.req.param('id')
